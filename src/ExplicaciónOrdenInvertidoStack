@@ -1,22 +1,23 @@
-import java.util.Scanner; // Importa la clase Scanner para leer la entrada del usuario.
+import java.util.Scanner;
 
 public class OrdenInvertidoStack {
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in); // Crea un objeto Scanner para leer la entrada desde la consola.
 
-        int n = scanner.nextInt();
+        int n = scanner.nextInt(); //Lee la cantidad de elementos a querer procesar.
 
-        while (n < 2 || n > 5000) {
-            n = scanner.nextInt();
+        // Validar que el número esté en el rango correcto
+        while (n < 2 || n > 5000) { // Asegura que el número esté entre 2 y 5000.
+            n = scanner.nextInt(); // Si no está en el rango, vuelve a pedir la entrada.
         }
 
-        Pila stackk = new Pila();
+        Pila stackk = new Pila(); // Creación de instancia de la clase Pila, que implementa una estructura de tipo Pila.
 
         // Lee `n` números enteros y los inserta en la pila.
         for (int i = 0; i < n; i++) {
-            int num = scanner.nextInt();
-            stackk.push(num);
+            int num = scanner.nextInt(); // Lee un número entero.
+            stackk.push(num); // Inserta el número en la pila.
         }
 
         // Extrae y muestra los elementos de la pila en orden invertido.
@@ -24,42 +25,43 @@ public class OrdenInvertidoStack {
             System.out.print(stackk.pop() + " "); // Saca y muestra el elemento superior de la pila.
         }
 
-        scanner.close();
+        scanner.close(); // Cierra el objeto scanner.
     }
 
-    // Clase anidada que implementa la estructura de datos tipo pila.
+    //CLASE ANIDADA
+    //Implementación de estructura de tipo de dato Pila.
     public static class Pila {
 
-        private Nodo cabeza;
+        private Nodo tope; // Apunta al nodo superior (top) de la pila.
 
         // Constructor: Inicializa la pila como vacía.
         public Pila() {
-            this.cabeza = null;
+            this.tope = null; // No hay elementos en la pila inicialmente.
         }
 
         // Método: Verifica si la pila está vacía.
         public Boolean isEmpty() {
-            return this.cabeza == null;
+            return this.tope == null; // Devuelve true si la pila no tiene nodos.
         }
 
         // Método: Inserta un elemento en la pila.
         public void push(int numero) {
-            Nodo nodo = new Nodo(numero);
-            nodo.siguiente = this.cabeza;
-            this.cabeza = nodo;
+            Nodo nodo = new Nodo(numero); // Crea un nuevo nodo con el número proporcionado.
+            nodo.siguiente = this.tope; // Conecta el nuevo nodo al nodo actual de la pila.
+            this.tope = nodo; // Actualiza la cabeza al nuevo nodo.
         }
 
         // Método (opcional): Muestra los elementos de la pila (para depuración).
         public void Mostrar() {
-            if (isEmpty()) {
+            if (isEmpty()) { // Si la pila está vacía, informa al usuario.
                 System.out.println("La lista está vacía");
                 return;
             }
 
-            Nodo actual = this.cabeza; // Empieza en el nodo superior.
-            while (actual != null) {
-                System.out.println(actual.numero);
-                actual = actual.siguiente;
+            Nodo actual = this.tope; // Empieza en el nodo superior.
+            while (actual != null) { // Recorre todos los nodos hasta el final.
+                System.out.println(actual.numero); // Muestra el número del nodo actual.
+                actual = actual.siguiente; // Pasa al siguiente nodo.
             }
         }
 
@@ -69,8 +71,8 @@ public class OrdenInvertidoStack {
                 throw new IllegalStateException("La pila está vacía.");
             }
 
-            int numero = this.cabeza.numero; // Obtiene el número del nodo superior.
-            this.cabeza = this.cabeza.siguiente; // Actualiza la cabeza al siguiente nodo.
+            int numero = this.tope.numero; // Obtiene el número del nodo superior.
+            this.tope = this.tope.siguiente; // Actualiza la cabeza al siguiente nodo.
             return numero; // Devuelve el número del nodo extraído.
         }
 
