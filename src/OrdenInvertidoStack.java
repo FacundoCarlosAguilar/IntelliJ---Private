@@ -20,9 +20,14 @@ public class OrdenInvertidoStack {
             stackk.push(num);
         }
 
+        // Muestra los elementos en el orden original antes de hacer el pop
+        System.out.println("Elementos en orden original:");
+        stackk.Mostrar();  // Imprime los elementos sin eliminarlos
+
         // Extrae y muestra los elementos de la pila en orden invertido.
+        System.out.println("\nElementos en orden invertido (LIFO):");
         while (!stackk.isEmpty()) {
-            System.out.print(stackk.pop() + " ");
+            System.out.print(stackk.pop() + " ");  // Imprime y elimina los elementos de la pila
         }
 
         scanner.close();
@@ -66,7 +71,7 @@ public class OrdenInvertidoStack {
         // Método: Extrae (elimina y devuelve) el elemento superior de la pila.
         public int pop() {
             if (isEmpty()) {
-                throw new IllegalStateException("La pila está vacía.");
+                System.out.println("La pila esta Vacía");
             }
 
             int numero = this.cabeza.numero;
