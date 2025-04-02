@@ -63,8 +63,8 @@ public class OrdenInvertidoStack {
 
             Nodo actual = this.cabeza; // Empieza en el nodo superior.
             while (actual != null) { // Recorre todos los nodos hasta el final.
-                System.out.println(actual.numero); // Muestra el número del nodo actual.
-                actual = actual.siguiente; // Pasa al siguiente nodo.
+            System.out.println(actual.numero); // Muestra el número del nodo actual.
+            actual = actual.siguiente; // Pasa al siguiente nodo.
             }
         }
 
