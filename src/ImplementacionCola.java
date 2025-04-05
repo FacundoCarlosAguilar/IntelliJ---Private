@@ -19,6 +19,7 @@ public class ImplementacionCola {
 
         System.out.println("Los elementos en la cola: ");
         cola.Imprimir(); // Mostrar los elementos de la cola
+        System.out.println("El elemento en la parte Superior de la Cola: " + cola.Top());
 
         // Realizar una operación de deque (eliminar el primer elemento)
         System.out.println("Elemento eliminado de la cola: " + cola.Dequeue());
@@ -82,6 +83,15 @@ public class ImplementacionCola {
                 this.Final = null;
             }
             return numero;  // Devuelvo el número Eliminado.
+        }
+
+        //Método Top: Imprimir el valor del elemento "nodo" que se encuentra en la parte Superior.
+        public int Top() {
+            if (isEmpty()) {
+                System.out.println("La cola se encuentra Vacia");
+                return -1;
+            }
+            return this.Final.numero;
         }
 
         //Método Imprimir: Utilizado para mostrar los elementos en la Cola.
