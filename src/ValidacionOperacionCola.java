@@ -39,14 +39,13 @@ public class ValidacionOperacionCola {
                         // Si el valor ingresado no es un número, lo ignora sin mostrar error
                         // Eso quiere decir que no se detendrá el programa.
                     }
-                    break;
-
+            break;
                 case "TOP":
                     // Muestra el primer valor de la cola sin haber sido eliminado.
                     if (!cola.isEmpty()) { // Verificamos que la cola no se encuentre vacía.
                         System.out.println(cola.Top()); // Si la cola no está vacía, muestra el valor superior de la cola.
                     } else {
-                        System.out.println("EMPTY"); // Si está vacía, muestra "EMPTY"
+                        System.out.println("Si"); // Si está vacía, muestra "EMPTY"
                     }
                     break;
 
@@ -70,7 +69,6 @@ public class ValidacionOperacionCola {
                     System.out.println(cola.size()); // Imprimo la cantidad de elementos en la cola.
                     break;
             }
-        scanner.close();
         }
     }
 

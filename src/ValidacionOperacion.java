@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-    public class ImplementacionCola {
+    public class ValidacionOperacion {
         public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
