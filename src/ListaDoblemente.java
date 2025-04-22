@@ -1,5 +1,9 @@
 import java.util.Scanner;
 
+/**
+ * Programa para gestionar una lista doblemente enlazada que representa una lista de reproducción (playlist).
+ * Permite operaciones como agregar canciones al inicio o final, insertar, eliminar, y navegar entre canciones.
+ */
 public class ListaDoblemente {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -7,34 +11,37 @@ public class ListaDoblemente {
         int n = scanner.nextInt();
         scanner.nextLine();
 
+        // Crear una nueva playlist.
         Playlist playlist = new Playlist();
 
+        // Procesar los comandos.
+        // Reutilización de código - Ayudar del Profesor.
         for (int i = 0; i < n; i++) {
             String[] command = scanner.nextLine().split(" ");
             switch (command[0]) {
-                case "PUSH_BACK":
-                    playlist.pushBack(Integer.parseInt(command[1]), command[2]);
+                case "PUSH_BACK": // Agregar canción al final.
+                    playlist.agregarFinal(Integer.parseInt(command[1]), command[2]);
                     break;
-                case "PUSH_FRONT":
-                    playlist.pushFront(Integer.parseInt(command[1]), command[2]);
+                case "PUSH_FRONT": // Agregar canción al inicio.
+                    playlist.agregarInicio(Integer.parseInt(command[1]), command[2]);
                     break;
-                case "INSERT":
-                    playlist.insert(Integer.parseInt(command[1]), command[2]);
+                case "INSERT": // Insertar canción antes de la canción actual.
+                    playlist.insertar(Integer.parseInt(command[1]), command[2]);
                     break;
-                case "DELETE":
-                    playlist.delete(Integer.parseInt(command[1]));
+                case "DELETE": // Eliminar canción por ID.
+                    playlist.eliminar(Integer.parseInt(command[1]));
                     break;
-                case "NEXT":
-                    playlist.next();
+                case "NEXT": // Avanzar a la siguiente canción.
+                    playlist.siguiente();
                     break;
-                case "PREV":
-                    playlist.prev();
+                case "PREV": // Retroceder a la canción anterior.
+                    playlist.anterior();
                     break;
-                case "PLAY":
-                    System.out.println(playlist.play());
+                case "PLAY": // Reproducir la canción actual.
+                    System.out.println(playlist.reproducir());
                     break;
-                case "PRINT_ALL":
-                    System.out.println(playlist.printAll());
+                case "PRINT_ALL": // Imprimir todas las canciones de la playlist.
+                    System.out.println(playlist.imprimirTodo());
                     break;
             }
         }
@@ -42,105 +49,137 @@ public class ListaDoblemente {
         scanner.close();
     }
 
+    // Clase anidada Playlist.
     static class Playlist {
-        private Song head;
-        private Song tail;
-        private Song current;
+        private Cancion inicio;    // Referencia al primer nodo de la lista.
+        private Cancion fin;       // Referencia al último nodo de la lista.
+        private Cancion actual;    // Referencia a la canción actual.
 
-        public void pushBack(int id, String name) {
-            Song newSong = new Song(id, name);
-            if (head == null) {
-                head = tail = current = newSong;
+
+        // Id: Canción.
+        // Nombre: Canción.
+        public void agregarFinal(int id, String nombre) {
+            Cancion nuevaCancion = new Cancion(id, nombre);
+
+            // Primer Caso: Si la lista está completamente vacía.
+            if (inicio == null) { // Si la lista está vacía.
+                inicio = fin = actual = nuevaCancion;
             } else {
-                tail.next = newSong;
-                newSong.prev = tail;
-                tail = newSong;
+
+                // Segundo Caso: Si la lista contiene al menos algún elemento.
+                fin.siguiente = nuevaCancion;
+                nuevaCancion.anterior = fin;
+                fin = nuevaCancion;
             }
         }
 
-        public void pushFront(int id, String name) {
-            Song newSong = new Song(id, name);
-            if (head == null) {
-                head = tail = current = newSong;
+        public void agregarInicio(int id, String nombre) {
+            Cancion nuevaCancion = new Cancion(id, nombre);
+            if (inicio == null) { // Si la lista está vacía.
+                inicio = fin = actual = nuevaCancion;
             } else {
-                newSong.next = head;
-                head.prev = newSong;
-                head = newSong;
+                nuevaCancion.siguiente = inicio;
+                inicio.anterior = nuevaCancion;
+                inicio = nuevaCancion;
             }
         }
 
-        public void insert(int id, String name) {
-            if (current == null) {
-                pushBack(id, name);
+        public void insertar(int id, String nombre) {
+            if (actual == null) { // Si la lista está vacía, agregar al final.
+                agregarFinal(id, nombre);
                 return;
             }
-            Song newSong = new Song(id, name);
-            newSong.next = current;
-            newSong.prev = current.prev;
-            if (current.prev != null) {
-                current.prev.next = newSong;
+            Cancion nuevaCancion = new Cancion(id, nombre);
+            nuevaCancion.siguiente = actual;
+            nuevaCancion.anterior = actual.anterior;
+            if (actual.anterior != null) {
+                actual.anterior.siguiente = nuevaCancion;
             } else {
-                head = newSong;
+                inicio = nuevaCancion;
             }
-            current.prev = newSong;
+            actual.anterior = nuevaCancion;
         }
 
-        public void delete(int id) {
-            Song temp = head;
+        /**
+         * Elimina una canción de la playlist por su ID.
+         *
+         * @param id ID de la canción a eliminar.
+         */
+        public void eliminar(int id) {
+            Cancion temp = inicio;
             while (temp != null && temp.id != id) {
-                temp = temp.next;
+                temp = temp.siguiente;
             }
-            if (temp == null) return;
+            if (temp == null) return; // Canción no encontrada.
 
-            if (temp.prev != null) {
-                temp.prev.next = temp.next;
+            if (temp.anterior != null) {
+                temp.anterior.siguiente = temp.siguiente;
             } else {
-                head = temp.next;
+                inicio = temp.siguiente;
             }
 
-            if (temp.next != null) {
-                temp.next.prev = temp.prev;
+            if (temp.siguiente != null) {
+                temp.siguiente.anterior = temp.anterior;
             } else {
-                tail = temp.prev;
+                fin = temp.anterior;
             }
 
-            if (current == temp) {
-                current = temp.next != null ? temp.next : head;
+            if (actual == temp) {
+                actual = temp.siguiente != null ? temp.siguiente : inicio;
             }
         }
 
-        public void next() {
-            current = (current != null && current.next != null) ? current.next : head;
+        /**
+         * Avanza a la siguiente canción.
+         */
+        public void siguiente() {
+            actual = (actual != null && actual.siguiente != null) ? actual.siguiente : inicio;
         }
 
-        public void prev() {
-            current = (current != null && current.prev != null) ? current.prev : tail;
+        /**
+         * Retrocede a la canción anterior.
+         */
+        public void anterior() {
+            actual = (actual != null && actual.anterior != null) ? actual.anterior : fin;
         }
 
-        public String play() {
-            return current != null ? current.name : "No song";
+        /**
+         * Devuelve el nombre de la canción actual.
+         *
+         * @return Nombre de la canción actual o "No song" si la playlist está vacía.
+         */
+        public String reproducir() {
+            return actual != null ? actual.nombre : "No song";
         }
 
-        public String printAll() {
+        /**
+         * Imprime los nombres de todas las canciones en la playlist.
+         *
+         * @return Una cadena con los nombres de las canciones separados por espacios.
+         */
+        public String imprimirTodo() {
             StringBuilder sb = new StringBuilder();
-            Song temp = head;
+            Cancion temp = inicio;
             while (temp != null) {
-                sb.append(temp.name).append(" ");
-                temp = temp.next;
+                sb.append(temp.nombre).append(" ");
+                temp = temp.siguiente;
             }
             return sb.toString().trim();
         }
     }
 
-    static class Song {
-        int id;
-        String name;
-        Song next;
-        Song prev;
+    /**
+     * Clase que representa una canción en la playlist.
+     */
+    static class Cancion {
+        int id;           // ID de la canción.
+        String nombre;    // Nombre de la canción.
+        Cancion siguiente; // Referencia al siguiente nodo.
+        Cancion anterior; // Referencia al nodo anterior.
 
-        public Song(int id, String name) {
+        public Cancion(int id, String nombre) {
             this.id = id;
-            this.name = name;
+            this.nombre = nombre;
         }
     }
 }
