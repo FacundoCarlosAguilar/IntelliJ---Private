@@ -20,8 +20,6 @@ public class PracticaDePunteros {
         System.out.println("Los elementos que se ingresaron:");
         lista.Imprimir();
 
-        System.out.println(" ");
-
         System.out.println("Ingresa el nombre a eliminar de la lista: ");
         String nombrePersona = scanner.nextLine();
 
@@ -29,6 +27,8 @@ public class PracticaDePunteros {
 
         System.out.println("Los elementos restantes son:");
         lista.Imprimir();
+
+        System.out.println("El nombre eliminado: " + nombrePersona);
 
         scanner.close();
     }
