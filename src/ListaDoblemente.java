@@ -1,9 +1,7 @@
 import java.util.Scanner;
 
-/**
- * Programa para gestionar una lista doblemente enlazada que representa una lista de reproducción (playlist).
- * Permite operaciones como agregar canciones al inicio o final, insertar, eliminar, y navegar entre canciones.
- */
+// Este código no ha sido REALIZADO.
+
 public class ListaDoblemente {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -55,7 +53,6 @@ public class ListaDoblemente {
         private Cancion fin;       // Referencia al último nodo de la lista.
         private Cancion actual;    // Referencia a la canción actual.
 
-
         // Id: Canción.
         // Nombre: Canción.
         public void agregarFinal(int id, String nombre) {
@@ -65,7 +62,6 @@ public class ListaDoblemente {
             if (inicio == null) { // Si la lista está vacía.
                 inicio = fin = actual = nuevaCancion;
             } else {
-
                 // Segundo Caso: Si la lista contiene al menos algún elemento.
                 fin.siguiente = nuevaCancion;
                 nuevaCancion.anterior = fin;
@@ -133,14 +129,23 @@ public class ListaDoblemente {
          * Avanza a la siguiente canción.
          */
         public void siguiente() {
-            actual = (actual != null && actual.siguiente != null) ? actual.siguiente : inicio;
+            // Si actual no es nulo y tiene un nodo siguiente, avanzar
+            if (actual != null && actual.siguiente != null) {
+                actual = actual.siguiente;
+            } else if (actual == null) {
+                // Si actual es nulo, inicializarlo como el primer nodo
+                actual = inicio;
+            }
         }
 
-        /**
-         * Retrocede a la canción anterior.
-         */
         public void anterior() {
-            actual = (actual != null && actual.anterior != null) ? actual.anterior : fin;
+            // Si actual no es nulo y tiene un nodo anterior, retroceder
+            if (actual != null && actual.anterior != null) {
+                actual = actual.anterior;
+            } else if (actual == null) {
+                // Si actual es nulo, inicializarlo como el último nodo
+                actual = fin;
+            }
         }
 
         /**
@@ -172,7 +177,7 @@ public class ListaDoblemente {
      * Clase que representa una canción en la playlist.
      */
     static class Cancion {
-        int id;           // ID de la canción.
+        int id;           // Id de la canción.
         String nombre;    // Nombre de la canción.
         Cancion siguiente; // Referencia al siguiente nodo.
         Cancion anterior; // Referencia al nodo anterior.
